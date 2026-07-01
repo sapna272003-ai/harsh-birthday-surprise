@@ -1,0 +1,53 @@
+
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Happy Birthday ❤️</title>
+<style>
+body{margin:0;overflow:hidden;background:linear-gradient(#071428,#000);font-family:Segoe UI;color:#fff}
+#sky,#fx{position:fixed;inset:0}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:tw 2s infinite alternate}
+@keyframes tw{to{opacity:.2}}
+.light{position:absolute;top:10px;width:8px;height:8px;background:#ffd86b;border-radius:50%;box-shadow:0 0 10px #ffd86b}
+.center{position:relative;z-index:2;text-align:center;padding-top:60px}
+#gift{font-size:100px;cursor:pointer}
+#cake,#letter,#final{display:none}
+#cakeEmoji{font-size:120px}
+#candles{font-size:42px}
+.float{position:fixed;bottom:-50px;animation:up 10s linear infinite;font-size:28px}
+@keyframes up{to{transform:translateY(-120vh)}}
+#letter{max-width:850px;margin:auto;padding:20px;white-space:pre-wrap;line-height:1.6;font-size:18px}
+button{padding:12px 22px;border-radius:25px;border:none}
+</style></head><body>
+<div id=sky></div><div id=fx></div>
+<div class=center>
+<h1>Someone made something special just for you... ❤️</h1>
+<div id=gift>🎁<div style="font-size:22px">Open Your Surprise ❤️</div></div>
+<div id=cake><div id=cakeEmoji>🎂</div><div id=candles>🕯️🕯️🕯️</div><p>Blow into your microphone to make a wish ✨</p></div>
+<div id=letter></div>
+<div id=final><h1>Happy Birthday, Baby ❤️</h1><h2>I love you more than words can ever explain.</h2></div>
+</div>
+<audio id=bg loop><source src="birthday.mp3" type="audio/mpeg"></audio>
+<script>
+for(let i=0;i<150;i++){let s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*2+'s';sky.appendChild(s);}
+for(let i=0;i<28;i++){let l=document.createElement('div');l.className='light';l.style.left=(i*4)+'%';fx.appendChild(l);}
+for(let i=0;i<30;i++){let f=document.createElement('div');f.className='float';f.textContent=i%2?'❤️':'🎈';f.style.left=Math.random()*100+'%';f.style.animationDelay=Math.random()*8+'s';document.body.appendChild(f);}
+const msg=`Happy Birthday, Baby. ❤️
+
+Happy Birthday to the most amazing person in my life.
+
+I love you soooo much. Not because I expect anything in return or because I hope for something—I just love you. I love you like crazy.
+
+Even if there's no future for us or if we can't be together someday, it doesn't change how I feel. I just love you, and I miss you sooooo much. I want to meet you, hug you, hold your hand, cuddle you, and just be close to you.
+
+I'm so proud of your hard work, your consistency, and the way you never give up. Thank you for always making time for me.
+
+You are one of the best people I have ever met, and I never want to lose you.
+
+I truly believe every dream of yours will come true. No matter where life takes us, I'll always be proud of you and always cheer for you.
+
+Happy Birthday once again, Baby.
+I love you more than words can ever explain. ❤️`;
+gift.onclick=()=>{gift.style.display='none';cake.style.display='block';bg.play().catch(()=>{});mic();}
+async function mic(){try{let st=await navigator.mediaDevices.getUserMedia({audio:true});let ac=new AudioContext(),src=ac.createMediaStreamSource(st),an=ac.createAnalyser();src.connect(an);let d=new Uint8Array(an.frequencyBinCount);(function L(){an.getByteFrequencyData(d);let v=d.reduce((a,b)=>a+b)/d.length;if(v>45){st.getTracks().forEach(t=>t.stop());candles.textContent='';cake.style.display='none';conf();type();}else requestAnimationFrame(L);})();}catch(e){alert('Mic unavailable. Click OK to continue.');cake.style.display='none';type();}}
+function conf(){for(let i=0;i<200;i++){let c=document.createElement('div');c.textContent='✨';c.style.position='fixed';c.style.left='50%';c.style.top='35%';c.style.transition='2s';document.body.appendChild(c);setTimeout(()=>{c.style.transform=`translate(${(Math.random()-0.5)*900}px,${Math.random()*700}px)`},10);setTimeout(()=>c.remove(),2200);}}
+function type(){letter.style.display='block';let i=0;let t=setInterval(()=>{letter.textContent+=msg[i]||'';i++;if(i>msg.length){clearInterval(t);final.style.display='block';}},25);}
+</script></body></html>
